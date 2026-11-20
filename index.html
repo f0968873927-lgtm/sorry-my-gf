@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ขอโทษนะ</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(160deg, #ffe3ec, #8e42df);
+      font-family: sans-serif;
+    }
+
+    .card {
+      background: #fffafc;
+      padding: 24px;
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 10px 30px #00000055;
+      max-width: 340px;
+      width: 90%;
+    }
+
+    /* กล่องคุมรูปหมาและหยดน้ำตา */
+    .dogbox {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* 👉 1. ใส่โค้ดย่อขนาดรูปตรงนี้ครับ */
+    .dog {
+      width: 220px;        /* ปรับความกว้างรูปตรงนี้ (เช่น 180px, 250px) */
+      max-width: 100%;
+      height: auto;        /* รักษาสัดส่วนไม่ให้รูปเบี้ยว */
+      border-radius: 16px; /* ทำมุมโค้งให้เข้ากับการ์ด */
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* หยดน้ำตาและแอนิเมชันน้ำตาไหล */
+    .tear {
+      position: absolute;
+      top: 45%;
+      font-size: 20px;
+      opacity: 0;
+      animation: drip 1.6s ease-in infinite;
+    }
+    .t1 { left: 28%; }
+    .t2 { left: 62%; animation-delay: .8s; }
+
+    @keyframes drip {
+      0%   { transform: translateY(0); opacity: 0; }
+      30%  { opacity: 1; }
+      100% { transform: translateY(35px); opacity: 0; }
+    }
+
+    h1 {
+      font-size: 24px;
+      margin: 16px 0;
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 4px;
+    }
+    #yes { background: #e8604c; color: white; }
+    #no  { background: white; color: #4a6fa5; box-shadow: 0 4px 14px #00000033; }
+  </style>
+</head>
+<body>
+
+  <audio id="bgm" src="GAVIND ft. BLVCKHEART - ได้แค่เดินมาส่ง (The Last Walk)「Official MV」(mp3j.cc).mp3" loop></audio>
+  <button id="music" style="position:fixed;top:12px;right:12px">🔇</button>
+
+  <div class="card">
+    <div class="dogbox">
+      <img class="dog" src="1000060900.png" alt="">
+      <span class="tear t1">💧</span>
+      <span class="tear t2">💧</span>
+    </div>
+    <h1>เค้าขอโทษนะ...</h1>
+    <button id="yes">โอเค หายงอนแล้ว</button>
+    <button id="no">หายงอนผมน้าบบบ</button>
+  </div>
+
+  <script>
+    /* ---------- เพลง ---------- */
+    const bgm = document.getElementById("bgm");
+    const music = document.getElementById("music");
+    bgm.volume = 0.1;
+    let started = false; 
+
+    function toggleMusic() {
+      started = true;
+      if (bgm.paused) {
+        if (bgm.currentTime < 1) bgm.currentTime = 45.6; 
+        bgm.play();
+        music.textContent = "🎵";
+      } else {
+        bgm.pause();
+        music.textContent = "🔇";
+      }
+    }
+
+    music.addEventListener("click", (e) => { e.stopPropagation(); toggleMusic(); });
+    document.addEventListener("click", () => {
+      if (!started) toggleMusic();
+    });
+
+    /* ---------- จบด้วยข้อความรัก ---------- */
+    function finish() {
+      document.querySelector(".card").innerHTML = `
+        <div style="font-size:56px">🥰</div>
+        <p style="font-size:18px; line-height:1.9">
+          ขอโทษที่ทำให้ร้องไห้ตลอดนะ<br>
+          ขอโทษที่ต้องทำให้คอยเป็นห่วงอยู่เสมอ<br>
+          ขอบคุณสำหรับอะไรหลายๆ อย่างนะ<br><br>
+          รักนะครับ 🤍
+        </p>`;
+    }
+
+    document.getElementById("yes").addEventListener("click", finish);
+
+    /* ---------- ปุ่มหนี ---------- */
+    const no = document.getElementById("no");
+    let count = 0;
+
+    no.addEventListener("click", () => {
+      if (count >= 10) { finish(); return; }
+      count++;
+      if (count === 10) no.textContent = "ก็ได้... ยอมแล้ว 🥹";
+      const x = Math.random() * (innerWidth - 120);
+      const y = Math.random() * (innerHeight - 50);
+      no.style.position = "fixed";
+      no.style.left = x + "px";
+      no.style.top = y + "px";
+    });
+  </script>
+</body>
+</html>
